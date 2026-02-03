@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistenti i Kodit Penal të Shqipërisë</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="{{ url_for('static', filename='images/Coat_of_arms_of_Albania.svg') }}" alt="Coat of Arms of Albania" class="header-logo">
+            <div class="header-text">
+                <h1>Asistenti i Kodit Penal të Shqipërisë</h1>
+                <p class="subtitle">Bëj pyetje për Kodin Penal dhe merr përgjigje të sakta bazuar në artikujt zyrtarë</p>
+            </div>
+        </header>
+
+        <div class="chat-container">
+            <div id="chat-messages" class="chat-messages">
+                <div class="welcome-message">
+                    <p>Mirë se vini! Unë jam asistenti juaj për Kodin Penal të Shqipërisë.</p>
+                    <p>Shkruani një pyetje në shqip dhe unë do t'ju ndihmoj të gjeni informacionin e nevojshëm.</p>
+                    <p><strong>Shembull:</strong> "Çfarë është vrasja dhe si dënohet?"</p>
+                </div>
+            </div>
+
+            <div class="chat-input-container">
+                <form id="chat-form">
+                    <textarea 
+                        id="question-input" 
+                        placeholder="Shkruani pyetjen tuaj këtu..."
+                        rows="2"
+                    ></textarea>
+                    <button type="submit" id="send-button">
+                        <span>Dërgo</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <footer>
+            <p>Bazuar në Kodin Penal të Shqipërisë - Burimi: pp.gov.al</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+</body>
+</html>
