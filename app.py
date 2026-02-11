@@ -1,16 +1,17 @@
 from flask import Flask, render_template, request, jsonify
 import os
 from chatbot import CriminalCodeAssistant
+import traceback
 
 app = Flask(__name__)
 
 assistant = None
+assistant_error = None
 
 def get_assistant():
     global assistant, assistant_error
     if assistant is None and assistant_error is None:
         try:
-            from chatbot import CriminalCodeAssistant
             print("Initializing CriminalCodeAssistant...")
             assistant = CriminalCodeAssistant()
             print("CriminalCodeAssistant initialized successfully")
@@ -25,6 +26,7 @@ def get_assistant():
         raise Exception(assistant_error)
     
     return assistant
+
 @app.route('/')
 def index():
     return render_template('index.html')
