@@ -7,11 +7,24 @@ app = Flask(__name__)
 assistant = None
 
 def get_assistant():
-    global assistant
-    if assistant is None:
-        assistant = CriminalCodeAssistant()
+    global assistant, assistant_error
+    if assistant is None and assistant_error is None:
+        try:
+            from chatbot import CriminalCodeAssistant
+            print("Initializing CriminalCodeAssistant...")
+            assistant = CriminalCodeAssistant()
+            print("CriminalCodeAssistant initialized successfully")
+        except Exception as e:
+            error_msg = f"Failed to initialize assistant: {str(e)}"
+            print(error_msg)
+            print(traceback.format_exc())
+            assistant_error = error_msg
+            raise
+    
+    if assistant_error:
+        raise Exception(assistant_error)
+    
     return assistant
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -36,13 +49,27 @@ def ask_question():
         })
     
     except Exception as e:
+        error_msg = str(e)
+        print(f"Error in ask_question: {error_msg}")
+        print(traceback.format_exc())
         return jsonify({
             'error': f'Gabim: {str(e)}'
         }), 500
 
 @app.route('/health')
 def health():
-    return jsonify({'status': 'ok'})
+    try:
+        get_assistant()
+        return jsonify({
+            'status': 'ok',
+            'assistant_loaded': assistant is not None
+        })
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': str(e),
+            'assistant_loaded': False
+        }), 500
 
 if __name__ == '__main__':
     from config import HOST, PORT
